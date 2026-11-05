@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Расписание богослужений · Пантелеимоновский храм в Заветах Ильича</title>
+<meta name="description" content="Расписание богослужений. Пантелеимоновский храм в Заветах Ильича, г. Пушкино.">
+<meta name="theme-color" content="#f5e6cd"><link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ruslan+Display&family=Forum&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=5">
+<style>
+:root{--wd:var(--ink)}
+/* Laptop: title and controls stay on the left, the month list scrolls on the right */
+.split{max-width:var(--wrap);margin:0 auto;padding:clamp(32px,5vw,64px) var(--gut) 0;display:grid;grid-template-columns:minmax(300px,380px) minmax(0,1fr);gap:clamp(40px,6vw,96px);align-items:start}
+.split-l{position:sticky;top:calc(var(--hdr) + 28px)}
+.split-l .phead{padding:0;text-align:left;margin:0}
+.split-l .phead h1{font-size:clamp(28px,2.9vw,42px)}
+.split-l .phead .lead{margin:16px 0 0}
+.split-l .orn{padding:0;margin:22px 0 26px}
+.split-l .orn .ln{display:none}
+.split-l .orn .mid{width:100%}
+.split-l .acts{justify-content:flex-start;flex-direction:column;align-items:stretch;margin-top:22px}
+.split-r{padding-bottom:clamp(28px,5vw,56px)}
+
+.months{display:flex;gap:8px;margin:0 0 20px}
+.months button{font:400 14px/1 var(--title),serif;letter-spacing:.05em;padding:11px 20px;border-radius:999px;border:0;background:transparent;color:var(--red);box-shadow:inset 0 0 0 1px var(--line);cursor:pointer}
+.months button[aria-selected=true]{background:var(--red);color:#fff6e8;box-shadow:none}
+.months button:disabled{opacity:.45;cursor:default}
+.legend{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:15px;color:var(--mute);margin:0}
+.legend span::before{content:'';display:inline-block;width:8px;height:8px;transform:rotate(45deg);margin:0 9px 1px 1px}
+.k-sun::before{background:var(--red)}.k-wd::before{background:var(--wd)}
+
+/* Each day: weekdays in blue, Sundays in red; service names in Forum, black */
+.cal{list-style:none;margin:0;padding:0;border-top:1px solid var(--line);--c:var(--wd)}
+.cal>li{--c:var(--wd);display:grid;grid-template-columns:110px 1fr;gap:4px 28px;padding:20px 0;border-bottom:1px solid var(--line);transition:opacity .4s}
+.cal>li.sun{--c:var(--red)}
+/* Sunday service starts with the Saturday evening vigil: that part is red too, service names included */
+.ev.vig{--c:var(--red)}
+.cal>li.sun .sv,.ev.vig .sv{color:var(--red)}
+.dd{margin:0;line-height:1.15;color:var(--c);font-size:15px}
+.dd b{display:block;font:400 40px/1 var(--title),serif;color:var(--c);margin-bottom:4px}
+.dd em{display:inline-block;margin-top:8px;font:400 13px/1 var(--title),serif;font-style:normal;letter-spacing:.04em;color:#fff6e8;background:var(--red);padding:5px 10px;border-radius:999px}
+.ev+.ev{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+.feast{margin:0 0 8px;font:400 17px/1.3 var(--title),serif;letter-spacing:.02em;color:var(--c)}
+.sv{display:flex;gap:16px;margin:0;padding:2px 0;font:400 21px/1.4 'Forum',serif;color:#1d1410}
+.sv time{flex:none;min-width:3.2em;font:400 21px/1.4 'Forum',serif;color:var(--c);font-variant-numeric:tabular-nums}
+.mark{margin:8px 0 0;font-size:15px;color:var(--deep)}
+.mark::before{content:'';display:inline-block;width:6px;height:6px;background:var(--red);transform:rotate(45deg);margin:0 10px 2px 0}
+.cal>li.past{opacity:.42}
+
+/* Tablet and phone: one column, centred head as on the other pages */
+@media (max-width:1100px){
+  .split{display:block;padding:0}
+  .split-l{position:static}
+  .split-l .phead{padding:clamp(32px,6vw,64px) var(--gut) 0;text-align:center}
+  .split-l .phead h1{font-size:clamp(28px,4.4vw,52px)}
+  .split-l .phead .lead{margin:18px auto 0}
+  .split-l .orn{padding:0 8px;margin:14px 0 0}
+  .split-l .orn .ln{display:block}
+  .split-l .orn .mid{width:min(560px,94vw)}
+  .side{max-width:760px;margin:0 auto;padding:clamp(28px,5vw,40px) var(--gut) 0}
+  .months,.legend{justify-content:center}
+  .side .note,.side .acts{display:none}
+  .split-r{max-width:760px;margin:0 auto;padding:20px var(--gut) clamp(28px,5vw,56px)}
+  .split-r .after{display:block}
+}
+@media (max-width:600px){
+  .cal>li{grid-template-columns:114px minmax(0,1fr);gap:4px 12px}
+  .dd{font-size:14px}
+  .dd b{font-size:30px}
+  .dd em{font-size:13px;letter-spacing:0;padding:5px 8px}
+  .feast{font-size:15px}
+  .sv{font-size:18px;gap:12px}
+  .sv time{font-size:18px}
+}
+.after{display:none}
+/* Long service names break inside the column on the narrowest phones */
+.sv span{min-width:0;overflow-wrap:break-word;hyphens:auto}
+@media (max-width:360px){.cal>li{grid-template-columns:100px minmax(0,1fr)}.dd em{font-size:12px;padding:5px 6px}}
+</style>
+</head><body id="top">
+<a class="skip" href="#main">К содержимому</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="index.html"><b>Пантелеимоновский храм</b><small>в Заветах Ильича</small></a>
+  <nav class="nav" id="menu" aria-label="Основное меню"><a href="raspisanie.html" aria-current=page>Расписание</a><a href="o-hrame.html">О храме</a><a href="zapiski.html">Записки</a><a href="treby.html">Требы</a><a href="index.html#help">Помощь храму</a><a href="kontakty.html">Контакты</a>
+    <p class="nav-foot"><a href="tel:+79057122688">+7 (905) 712-26-88</a><br>ул. Вокзальная, 6А · у платформы «Заветы Ильича»</p>
+  </nav>
+  <button class="burger" type="button" aria-label="Меню" aria-controls="menu" aria-expanded="false"><span></span></button>
+</div></header>
+<main id="main">
+<div class="split"><aside class="split-l"><section class="phead"><h1>Расписание богослужений</h1></section><div class="orn" aria-hidden="true"><span class="ln l"></span><svg class="mid" viewBox="0 -2 640 67" aria-hidden="true"><defs><filter id="o-pen" x="-5%" y="-20%" width="110%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="1.4"/></filter><filter id="o-wash" x="-5%" y="-20%" width="110%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="2"/><feDisplacementMap in="SourceGraphic" scale="3.2"/><feGaussianBlur stdDeviation=".35"/></filter></defs><g class="o-wash" filter="url(#o-wash)" transform="translate(1.3 -.7)"><path class="o-g" d="M320.0,24 C327.0,24.0 327.0,35.0 334.0,35.0 C361.0,35.0 361.0,39.4 388.0,39.4 C412.0,39.4 412.0,42.9 436.0,42.9 C457.0,42.9 457.0,46.4 478.0,46.4 C495.5,46.4 495.5,49.5 513.0,49.5 C527.5,49.5 527.5,52.1 542.0,52.1 C554.0,52.1 554.0,54.5 566.0,54.5 C575.5,54.5 575.5,56.5 585.0,56.5 C600.5,56.5 600.5,63.0 616.0,63.0 L616.0,64 L24.0,64 L24.0,63 C39.5,63.0 39.5,56.5 55.0,56.5 C64.5,56.5 64.5,54.5 74.0,54.5 C86.0,54.5 86.0,52.1 98.0,52.1 C112.5,52.1 112.5,49.5 127.0,49.5 C144.5,49.5 144.5,46.4 162.0,46.4 C183.0,46.4 183.0,42.9 204.0,42.9 C228.0,42.9 228.0,39.4 252.0,39.4 C279.0,39.4 279.0,35.0 306.0,35.0 C313.0,35.0 313.0,24.0 320.0,24.0 Z"/><g><g transform="translate(334.0 64) rotate(-6) scale(1.32)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(388.0 64) rotate(-2) scale(1.12)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(436.0 64) rotate(0) scale(0.96)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(478.0 64) rotate(2) scale(0.8)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(513.0 64) rotate(3) scale(0.66)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(542.0 64) rotate(4) scale(0.54)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(566.0 64) rotate(5) scale(0.43)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(585.0 64) rotate(6) scale(0.34)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g class="o-f"><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(0 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(72 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(144 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(216 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(288 426.0 55)"/></g><circle class="o-v2" cx="426.0" cy="55" r="1.9"/><g class="o-f"><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(0 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(72 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(144 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(216 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(288 506.0 57)"/></g><circle class="o-v2" cx="506.0" cy="57" r="1.5"/><g class="o-f"><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(0 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(72 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(144 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(216 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(288 560.0 58)"/></g><circle class="o-v2" cx="560.0" cy="58" r="1.1"/><g class="o-f"><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(0 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(72 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(144 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(216 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(288 598.0 59)"/></g><circle class="o-v2" cx="598.0" cy="59" r="0.9"/></g><g transform="translate(640 0) scale(-1 1)"><g transform="translate(334.0 64) rotate(-6) scale(1.32)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(388.0 64) rotate(-2) scale(1.12)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(436.0 64) rotate(0) scale(0.96)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(478.0 64) rotate(2) scale(0.8)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(513.0 64) rotate(3) scale(0.66)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(542.0 64) rotate(4) scale(0.54)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(566.0 64) rotate(5) scale(0.43)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(585.0 64) rotate(6) scale(0.34)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g class="o-f"><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(0 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(72 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(144 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(216 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(288 426.0 55)"/></g><circle class="o-v2" cx="426.0" cy="55" r="1.9"/><g class="o-f"><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(0 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(72 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(144 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(216 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(288 506.0 57)"/></g><circle class="o-v2" cx="506.0" cy="57" r="1.5"/><g class="o-f"><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(0 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(72 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(144 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(216 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(288 560.0 58)"/></g><circle class="o-v2" cx="560.0" cy="58" r="1.1"/><g class="o-f"><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(0 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(72 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(144 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(216 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(288 598.0 59)"/></g><circle class="o-v2" cx="598.0" cy="59" r="0.9"/></g><g><path class="o-f" d="M320.0,4 C333.0,14 337.0,31 330.0,44 C326.0,50 314.0,50 310.0,44 C303.0,31 307.0,14 320.0,4 Z"/><path class="o-v2" d="M320.0,13 C326.0,22 326.0,33 320.0,41 C314.0,33 314.0,22 320.0,13 Z"/><path class="o-f" d="M320.0,20 C322.6,25 322.6,31 320.0,35 C317.4,31 317.4,25 320.0,20 Z"/><path class="o-f" d="M319.0,64 C316.0,52 304.0,44 296.0,50 C292.0,54 296.0,60 301.0,57 C305.0,54 311.0,56 314.0,64 Z"/><path class="o-f" d="M321.0,64 C324.0,52 336.0,44 344.0,50 C348.0,54 344.0,60 339.0,57 C335.0,54 329.0,56 326.0,64 Z"/><circle class="o-f" cx="320.0" cy="57" r="5.5"/><circle class="o-v2" cx="320.0" cy="57" r="2"/></g></g><g class="o-ink" filter="url(#o-pen)"><path class="o-g" d="M320.0,24 C327.0,24.0 327.0,35.0 334.0,35.0 C361.0,35.0 361.0,39.4 388.0,39.4 C412.0,39.4 412.0,42.9 436.0,42.9 C457.0,42.9 457.0,46.4 478.0,46.4 C495.5,46.4 495.5,49.5 513.0,49.5 C527.5,49.5 527.5,52.1 542.0,52.1 C554.0,52.1 554.0,54.5 566.0,54.5 C575.5,54.5 575.5,56.5 585.0,56.5 C600.5,56.5 600.5,63.0 616.0,63.0 L616.0,64 L24.0,64 L24.0,63 C39.5,63.0 39.5,56.5 55.0,56.5 C64.5,56.5 64.5,54.5 74.0,54.5 C86.0,54.5 86.0,52.1 98.0,52.1 C112.5,52.1 112.5,49.5 127.0,49.5 C144.5,49.5 144.5,46.4 162.0,46.4 C183.0,46.4 183.0,42.9 204.0,42.9 C228.0,42.9 228.0,39.4 252.0,39.4 C279.0,39.4 279.0,35.0 306.0,35.0 C313.0,35.0 313.0,24.0 320.0,24.0 Z"/><g><g transform="translate(334.0 64) rotate(-6) scale(1.32)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(388.0 64) rotate(-2) scale(1.12)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(436.0 64) rotate(0) scale(0.96)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(478.0 64) rotate(2) scale(0.8)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(513.0 64) rotate(3) scale(0.66)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(542.0 64) rotate(4) scale(0.54)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(566.0 64) rotate(5) scale(0.43)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(585.0 64) rotate(6) scale(0.34)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g class="o-f"><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(0 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(72 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(144 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(216 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(288 426.0 55)"/></g><circle class="o-v2" cx="426.0" cy="55" r="1.9"/><g class="o-f"><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(0 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(72 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(144 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(216 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(288 506.0 57)"/></g><circle class="o-v2" cx="506.0" cy="57" r="1.5"/><g class="o-f"><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(0 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(72 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(144 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(216 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(288 560.0 58)"/></g><circle class="o-v2" cx="560.0" cy="58" r="1.1"/><g class="o-f"><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(0 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(72 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(144 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(216 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(288 598.0 59)"/></g><circle class="o-v2" cx="598.0" cy="59" r="0.9"/></g><g transform="translate(640 0) scale(-1 1)"><g transform="translate(334.0 64) rotate(-6) scale(1.32)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(388.0 64) rotate(-2) scale(1.12)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(436.0 64) rotate(0) scale(0.96)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(478.0 64) rotate(2) scale(0.8)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(513.0 64) rotate(3) scale(0.66)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(542.0 64) rotate(4) scale(0.54)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(566.0 64) rotate(5) scale(0.43)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g transform="translate(585.0 64) rotate(6) scale(0.34)"><path class="o-f" d="M0,0 C7,-2 12,-9 16,-17 C17,-23 23,-25 25,-19 C28,-27 36,-29 38,-22 C42,-28 51,-26 50,-18 C56,-19 61,-13 58,-7 C55,-2 49,-3 50,-8 C45,-5 38,-4 31,-3 C33,-1 31,2 28,1 C20,1 10,2 0,0 Z"/><path class="o-v" d="M2,-1 C14,-5 27,-12 46,-13 M25,-8 C27,-14 31,-18 34,-20 M14,-5 C15,-10 18,-14 21,-16"/><path class="o-c" d="M0,0 C-2,-8 4,-15 11,-13 C16,-11 14,-5 10,-6 C7,-7 8,-10 10,-10" transform="translate(30 0) scale(.7)"/></g><g class="o-f"><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(0 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(72 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(144 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(216 426.0 55)"/><ellipse cx="426.0" cy="51.2" rx="2.6" ry="3.7" transform="rotate(288 426.0 55)"/></g><circle class="o-v2" cx="426.0" cy="55" r="1.9"/><g class="o-f"><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(0 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(72 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(144 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(216 506.0 57)"/><ellipse cx="506.0" cy="53.9" rx="2.1" ry="3.0" transform="rotate(288 506.0 57)"/></g><circle class="o-v2" cx="506.0" cy="57" r="1.5"/><g class="o-f"><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(0 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(72 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(144 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(216 560.0 58)"/><ellipse cx="560.0" cy="55.6" rx="1.6" ry="2.3" transform="rotate(288 560.0 58)"/></g><circle class="o-v2" cx="560.0" cy="58" r="1.1"/><g class="o-f"><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(0 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(72 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(144 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(216 598.0 59)"/><ellipse cx="598.0" cy="57.1" rx="1.3" ry="1.8" transform="rotate(288 598.0 59)"/></g><circle class="o-v2" cx="598.0" cy="59" r="0.9"/></g><g><path class="o-f" d="M320.0,4 C333.0,14 337.0,31 330.0,44 C326.0,50 314.0,50 310.0,44 C303.0,31 307.0,14 320.0,4 Z"/><path class="o-v2" d="M320.0,13 C326.0,22 326.0,33 320.0,41 C314.0,33 314.0,22 320.0,13 Z"/><path class="o-f" d="M320.0,20 C322.6,25 322.6,31 320.0,35 C317.4,31 317.4,25 320.0,20 Z"/><path class="o-f" d="M319.0,64 C316.0,52 304.0,44 296.0,50 C292.0,54 296.0,60 301.0,57 C305.0,54 311.0,56 314.0,64 Z"/><path class="o-f" d="M321.0,64 C324.0,52 336.0,44 344.0,50 C348.0,54 344.0,60 339.0,57 C335.0,54 329.0,56 326.0,64 Z"/><circle class="o-f" cx="320.0" cy="57" r="5.5"/><circle class="o-v2" cx="320.0" cy="57" r="2"/></g></g></svg><span class="ln r"></span></div><div class="side">
+  <div class="months" role="tablist" aria-label="Месяц">
+    <button role="tab" aria-selected="true">Ноябрь 2026</button>
+    <button role="tab" aria-selected="false" disabled title="Появится в конце ноября">Декабрь</button>
+  </div>
+
+  <p class="legend"><span class="k-sun">воскресные службы (с субботнего вечера)</span><span class="k-wd">будничные</span></p>
+  <p class="note">Записки на литургию подают до её начала у свечного ящика.</p>
+  <div class="acts">
+    <a class="btn solid" href="zapiski.html">Подать записку</a>
+    <a class="btn" href="kontakty.html">Как добраться</a>
+  </div>
+</div>
+</aside><div class="split-r">
+<section class="list">
+  <ol class="cal" id="cal">
+    <li data-day="4"><p class="dd"><b>4</b>среда</p><div>
+      <div class="ev"><p class="feast">Казанская икона Божией Матери</p><p class="sv"><time>7:30</time><span>Утреня, часы, литургия</span></p></div>
+    </div></li>
+    <li data-day="6"><p class="dd"><b>6</b>пятница</p><div>
+      <div class="ev"><p class="feast">Димитриевская родительская суббота</p><p class="sv"><time>17:00</time><span>Вечернее богослужение</span></p></div>
+    </div></li>
+    <li data-day="7"><p class="dd"><b>7</b>суббота</p><div>
+      <div class="ev"><p class="sv"><time>8:00</time><span>Исповедь</span></p><p class="sv"><time>8:30</time><span>Часы, литургия, панихида</span></p></div>
+      <div class="ev vig"><p class="feast">Вмч. Димитрия Солунского</p><p class="sv"><time>17:00</time><span>Вечернее богослужение</span></p></div>
+    </div></li>
+    <li data-day="8" class="sun"><p class="dd"><b>8</b>воскресенье</p><div>
+      <div class="ev"><p class="sv"><time>8:00</time><span>Исповедь</span></p><p class="sv"><time>8:30</time><span>Часы, литургия, молебен</span></p></div>
+    </div></li>
+    <li data-day="11"><p class="dd"><b>11</b>среда</p><div>
+      <div class="ev"><p class="feast">Прмц. Анастасии Римляныни</p><p class="sv"><time>7:30</time><span>Утреня, часы, литургия</span></p></div>
+    </div></li>
+    <li data-day="15" class="sun"><p class="dd"><b>15</b>воскресенье</p><div>
+      <div class="ev"><p class="feast">Мчч. Акиндина, Пигасия, Афония и иже с ними</p><p class="sv"><time>8:00</time><span>Исповедь</span></p><p class="sv"><time>8:30</time><span>Часы, литургия, молебен</span></p></div>
+    </div></li>
+    <li data-day="19"><p class="dd"><b>19</b>четверг</p><div>
+      <div class="ev"><p class="feast">Прп. Варлаама Хутынского</p><p class="sv"><time>7:30</time><span>Утреня, часы, литургия</span></p></div>
+    </div></li>
+    <li data-day="21"><p class="dd"><b>21</b>суббота</p><div>
+      <div class="ev"><p class="feast">Собор Архистратига Михаила</p><p class="sv"><time>·</time><span>Праздничное богослужение в Михаило-Архангельском храме</span></p></div>
+      <div class="ev vig"><p class="feast">Икона Божией Матери «Скоропослушница»</p><p class="sv"><time>17:00</time><span>Вечернее богослужение</span></p></div>
+    </div></li>
+    <li data-day="22" class="sun"><p class="dd"><b>22</b>воскресенье</p><div>
+      <div class="ev"><p class="sv"><time>8:00</time><span>Исповедь</span></p><p class="sv"><time>8:30</time><span>Часы, литургия, молебен</span></p></div>
+    </div></li>
+    <li data-day="26"><p class="dd"><b>26</b>четверг</p><div>
+      <div class="ev"><p class="feast">Свт. Иоанна Златоуста</p><p class="sv"><time>7:30</time><span>Утреня, часы, литургия</span></p></div>
+    </div></li>
+    <li data-day="28"><p class="dd"><b>28</b>суббота</p><div>
+      <div class="ev"><p class="feast">Прп. Паисия Величковского</p><p class="sv"><time>7:30</time><span>Утреня, часы, литургия, лития</span></p><p class="mark">Начало Рождественского поста</p></div>
+      <div class="ev vig"><p class="feast">Ап. Матфея</p><p class="sv"><time>17:00</time><span>Вечернее богослужение</span></p></div>
+    </div></li>
+    <li data-day="29" class="sun"><p class="dd"><b>29</b>воскресенье</p><div>
+      <div class="ev"><p class="sv"><time>8:00</time><span>Исповедь</span></p><p class="sv"><time>8:30</time><span>Часы, литургия, молебен</span></p></div>
+    </div></li>
+  </ol>
+  <div class="after">
+  <p class="note">Записки на литургию подают до её начала у свечного ящика.</p>
+  <div class="acts">
+    <a class="btn solid" href="zapiski.html">Подать записку</a>
+    <a class="btn" href="kontakty.html">Как добраться</a>
+  </div>
+  </div>
+</section>
+
+<script>
+// Hides past days and marks the nearest day with services (month is November 2026).
+(() => {
+  const now = new Date(), y = 2026, m = 10;
+  const today = now.getFullYear() === y && now.getMonth() === m ? now.getDate() : (now < new Date(y, m, 1) ? 0 : 99);
+  let marked = false;
+  document.querySelectorAll('#cal li').forEach(li => {
+    const d = +li.dataset.day;
+    if (d < today) li.remove();
+    else if (!marked) { li.classList.add('next'); li.querySelector('.dd').insertAdjacentHTML('beforeend', `<em>${d === today ? 'сегодня' : 'ближайшая'}</em>`); marked = true; }
+  });
+})();
+</script>
+</div></div>
+</main>
+<footer class="ftr">
+  <div class="frieze soft" style="--h:24px"></div>
+  <div class="ftr-in">
+    <div class="ftr-brand">
+      <a class="ftr-name" href="index.html"><b>Пантелеимоновский храм</b><small>в Заветах Ильича</small></a>
+      <p>Храм святого великомученика и целителя Пантелеимона. Сергиево-Посадская епархия, Пушкинское благочиние.</p>
+    </div>
+    <div>
+      <h4>Контакты</h4>
+      <p>Московская обл., г. Пушкино, мкр. Заветы Ильича, ул. Вокзальная, 6А</p>
+      <p><a href="tel:+79057122688">+7 (905) 712-26-88</a></p>
+      <p><a href="mailto:zavety-hram@bk.ru">zavety-hram@bk.ru</a></p>
+    </div>
+    <div>
+      <h4>Разделы</h4>
+      <p><a href="raspisanie.html">Расписание</a></p>
+      <p><a href="o-hrame.html">О храме</a></p>
+      <p><a href="zapiski.html">Записки</a></p>
+      <p><a href="treby.html">Требы</a></p>
+      <p><a href="index.html#help">Помощь храму</a></p>
+      <p><a href="kontakty.html">Контакты</a></p>
+    </div>
+    <div>
+      <h4>Приход в сети</h4>
+      <p><a href="https://max.ru/join/4l6tZieKnsaPZBNdquhz8zcUVnkcsHrLS48Z7GqwcDc" target="_blank" rel="noopener">Канал в MAX</a></p>
+      <p><a href="https://vk.com/zavetyhram" target="_blank" rel="noopener">ВКонтакте «Божья клумба»</a></p>
+      <p><a href="https://t.me/zavetihram" target="_blank" rel="noopener">Telegram-канал</a></p>
+      <p><a href="https://t.me/+d78WahK1r-w1YTUy" target="_blank" rel="noopener">«Аз есмь с вами»</a></p>
+    </div>
+  </div>
+  <div class="ftr-bot"><span>Пантелеимоновский храм в Заветах Ильича, 2026</span><a href="#top">Наверх</a></div>
+</footer>
+<script>
+const burger = document.querySelector('.burger');
+const setMenu = open => { document.body.classList.toggle('menu-open', open); burger.setAttribute('aria-expanded', open ? 'true' : 'false'); };
+burger.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+document.querySelectorAll('.nav a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.body.classList.contains('menu-open')) { setMenu(false); burger.focus(); } });
+matchMedia('(min-width:1101px)').addEventListener('change', e => { if (e.matches) setMenu(false); });
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .15 });
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+</body></html>
