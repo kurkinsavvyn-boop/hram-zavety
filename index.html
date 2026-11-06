@@ -267,6 +267,25 @@ h1 span{display:inline-block}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important;transition-delay:0s!important}
 }
+
+/* Coloured ornament band: rules open from centre, rhombuses appear outward, soft glint */
+.uzb{position:relative;height:var(--h,30px);overflow:hidden}
+.uzb .ln{position:absolute;inset:0;background:var(--rules);
+  -webkit-mask:url(uzor-linii.png) left top/auto 100% repeat-x;mask:url(uzor-linii.png) left top/auto 100% repeat-x;clip-path:inset(0 50%)}
+.uzb .t{position:absolute;top:0;height:100%;background:center/100% 100% no-repeat;opacity:0;transform:scale(.35)}
+.uzb .gl{position:absolute;inset:0;pointer-events:none;
+  -webkit-mask:url(uzor-romb.png) var(--ox,0) 0/auto 100% repeat-x;mask:url(uzor-romb.png) var(--ox,0) 0/auto 100% repeat-x}
+.uzb .gl b{position:absolute;top:0;bottom:0;left:calc(50% - 16px);width:32px;opacity:0;
+  background:linear-gradient(90deg,rgba(255,236,190,0),rgba(255,236,190,.42) 50%,rgba(255,236,190,0))}
+.uzb.on .ln{animation:uzOpen .9s cubic-bezier(.3,0,.2,1) forwards}
+.uzb.on .t{animation:uzPop .55s cubic-bezier(.2,.9,.3,1.2) forwards;animation-delay:calc(.75s + var(--d) * 60ms)}
+.uzb.on .gl b{animation:uzGlL 1.8s cubic-bezier(.4,0,.3,1) forwards;animation-delay:var(--gd)}
+.uzb.on .gl b+b{animation-name:uzGlR}
+@keyframes uzOpen{to{clip-path:inset(0 0)}}
+@keyframes uzPop{to{opacity:1;transform:none}}
+@keyframes uzGlL{0%{opacity:0;transform:none}20%,80%{opacity:1}100%{opacity:0;transform:translateX(calc(var(--bw) * -.5 - 32px))}}
+@keyframes uzGlR{0%{opacity:0;transform:none}20%,80%{opacity:1}100%{opacity:0;transform:translateX(calc(var(--bw) * .5 + 32px))}}
+@media (prefers-reduced-motion:reduce){.uzb .ln,.uzb .t{animation:none!important;clip-path:none;opacity:1;transform:none}.uzb .gl{display:none}}
 </style>
 </head><body id="top">
 
@@ -311,10 +330,10 @@ h1 span{display:inline-block}
 
 
 
-<div class="frieze soft" style="--h:30px;animation-delay:1.4s"></div>
+<div class="uzb" data-img="uzor-izumrud.png" style="--h:30px;--rules:var(--red)" aria-hidden="true"></div>
 
 <section class="news" id="news">
-  <div class="sec-h"><h2>Новости</h2><a class="more" href="https://max.ru/join/4l6tZieKnsaPZBNdquhz8zcUVnkcsHrLS48Z7GqwcDc" target="_blank" rel="noopener">Все новости в канале MAX</a></div>
+  <div class="sec-h"><h2>Новости</h2></div>
   <div class="news-l">
     <article><img src="news-hero-02-oktyabr-2026.jpg" alt="Пантелеимоновский храм снаружи" loading="lazy" width="900" height="675"><time>1 мая</time><h3>Приход едет в Бутово</h3><p>23 мая храм организует поездку в Бутово: экскурсия по храмовому комплексу и полигону, храм Воскресения Христова и Новомучеников и исповедников Российских, рассказ о Пушкинских новомучениках.</p><a href="https://t.me/zavetihram/476" target="_blank" rel="noopener">Подробнее</a></article>
     <article><img src="news-int-02-tsarskie-vrata.jpg" alt="Царские врата храма" loading="lazy" width="675" height="900"><time>22 марта</time><h3>Литургия Преждеосвященных Даров</h3><p>В будни Великого поста в храме совершается Литургия Преждеосвященных Даров. В канале зарисовки со службы в среду Крестопоклонной седмицы.</p><a href="https://t.me/zavetihram/474" target="_blank" rel="noopener">Подробнее</a></article>
@@ -529,5 +548,25 @@ matchMedia('(min-width:1101px)').addEventListener('change', e => { if (e.matches
 
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .15 });
 io.observe(document.getElementById('about'));
+</script>
+<script>
+(function(){
+  var R=125/192,bands=[].slice.call(document.querySelectorAll('.uzb'));
+  function fill(b){
+    b.innerHTML='<i class="ln"></i><i class="gl"><b></b><b></b></i>';
+    var w=b.clientWidth,h=b.clientHeight,tw=h*R,x0=w/2-tw/2,K=Math.ceil(x0/tw)+1,f=document.createDocumentFragment();
+    for(var k=-K;k<=K;k++){var t=document.createElement('i');t.className='t';
+      t.style.cssText='left:'+(x0+k*tw)+'px;width:'+(tw+.4)+'px;--d:'+Math.abs(k)+';background-image:url('+b.dataset.img+')';f.appendChild(t)}
+    b.insertBefore(f,b.querySelector('.gl'));
+    b.style.setProperty('--bw',w+'px');b.style.setProperty('--ox',(((x0%tw)+tw)%tw)+'px');
+    b.style.setProperty('--gd',(.75+K*.06+.3)+'s');b._w=w;
+  }
+  bands.forEach(fill);
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.6});
+    bands.forEach(function(b){io.observe(b)});
+  }else bands.forEach(function(b){b.classList.add('on')});
+  addEventListener('resize',function(){bands.forEach(function(b){if(Math.abs(b.clientWidth-b._w)>40){fill(b)}})});
+})();
 </script>
 </body></html>
