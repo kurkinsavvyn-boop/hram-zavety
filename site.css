@@ -16,11 +16,11 @@ img{max-width:100%;display:block}
 .skip{position:absolute;left:var(--gut);top:-80px;z-index:50;padding:14px 20px;border-radius:999px;background:var(--red);color:#fff6e8;font:400 14px/1 var(--title),serif;letter-spacing:.05em;text-decoration:none}
 .skip:focus{top:8px}
 
-/* Vyaz frieze (kept as is for now) */
+/* Vyaz frieze in the heading red */
 .frieze{height:var(--h,14px);background:var(--red);
   -webkit-mask:url(vyaz-dlinnaya.png) left center/auto 100% repeat-x;mask:url(vyaz-dlinnaya.png) left center/auto 100% repeat-x;
   clip-path:inset(0 100% 0 0);animation:draw 3.2s cubic-bezier(.45,0,.2,1) .2s forwards}
-.frieze.soft{background:var(--deep);opacity:.4}
+.frieze.soft{background:var(--red)}
 @keyframes draw{to{clip-path:inset(0 0 0 0)}}
 
 /* Header */
@@ -71,9 +71,9 @@ img{max-width:100%;display:block}
 .orn .mid{flex:none;width:min(560px,94vw);height:auto;opacity:0;clip-path:inset(0 50% 0 50%);animation:unroll 1.4s cubic-bezier(.45,0,.2,1) .3s forwards}
 @keyframes unroll{to{opacity:1;clip-path:inset(0 0 0 0)}}
 @keyframes spread{to{transform:scaleX(1)}}
-.o-wash .o-f,.o-wash .o-g{fill:#b8352a;stroke:none}
-.o-wash .o-f{opacity:.74}
-.o-wash .o-g{opacity:.16}
+.o-wash .o-f,.o-wash .o-g{fill:var(--red);stroke:none}
+.o-wash .o-f{opacity:1}
+.o-wash .o-g{opacity:.28}
 .o-wash .o-v,.o-wash .o-v2,.o-wash .o-c{display:none}
 .o-ink .o-g{display:none}
 .o-ink .o-f,.o-ink .o-v2{fill:none;stroke:#3b1a12;stroke-width:.85;stroke-linejoin:round}
