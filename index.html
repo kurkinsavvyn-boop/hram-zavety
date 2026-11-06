@@ -447,7 +447,6 @@ matchMedia('(min-width:1101px)').addEventListener('change', e => { if (e.matches
   const finish = () => box.classList.add('done');
   if (matchMedia('(prefers-reduced-motion:reduce)').matches || !cvInk.getContext) { finish(); return; }
   const load = src => new Promise((ok, no) => { const i = new Image(); i.onload = () => (i.decode ? i.decode().catch(() => {}) : Promise.resolve()).then(() => ok(i)); i.onerror = no; i.src = src; });
-  const base = fin.getAttribute('src').replace('hram-pero.webp', '');
   // Path geometry in image units (1536 x 1024): scribbles for the pen, broad curves for the brush
   let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
   const S = 112, strokes = [];
@@ -480,7 +479,7 @@ matchMedia('(min-width:1101px)').addEventListener('change', e => { if (e.matches
     g.fillStyle = rg; g.fillRect(0, 0, 64, 64); return c;
   });
   const ease = u => u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
-  Promise.all([load(base + 'hram-pero-ink.webp'), load(base + 'hram-pero-red.webp'), fin.decode ? fin.decode().catch(() => {}) : 0]).then(([inkImg, redImg]) => {
+  Promise.all([load('hram-pero-ink.webp'), load('hram-pero-red.webp'), fin.decode ? fin.decode().catch(() => {}) : 0]).then(([inkImg, redImg]) => {
     const cvs = [cvInk, cvRed], imgs = [inkImg, redImg], masks = [document.createElement('canvas'), document.createElement('canvas')];
     let tf, ctx, mctx;
     const size = () => {
