@@ -11,7 +11,7 @@
 :root{
   --paper:#f5e6cd;--card:#fbf1df;--ink:#2a1d17;--mute:#6a584b;
   --red:#b3261e;--deep:#7d1712;--line:rgba(125,23,18,.28);
-  --paper-2:#fbf1df;--paper-3:#efdbbb;
+  --paper-2:#fbf1df;--green:#2e5b47;--sage:#e9ecdc;--paper-3:#efdbbb;
   --page:#f8ecd8;   /* the page: a lighter beige so text reads easily; the header and the church walls keep the paper tone */
   --title:'Ruslan Display';--hdr:64px;--gut:clamp(16px,4vw,48px);
   --wrap:1240px;--sec:clamp(48px,5vw,64px);
@@ -286,6 +286,17 @@ h1 span{display:inline-block}
 @keyframes uzGlL{0%{opacity:0;transform:none}20%,80%{opacity:1}100%{opacity:0;transform:translateX(calc(var(--bw) * -.5 - 32px))}}
 @keyframes uzGlR{0%{opacity:0;transform:none}20%,80%{opacity:1}100%{opacity:0;transform:translateX(calc(var(--bw) * .5 + 32px))}}
 @media (prefers-reduced-motion:reduce){.uzb .ln,.uzb .t{animation:none!important;clip-path:none;opacity:1;transform:none}.uzb .gl{display:none}}
+
+/* News accents in emerald (variant 1) */
+.news time{color:var(--green)}
+.news article a{color:var(--green)}
+.news article{border-top-color:rgba(46,91,71,.35)}
+/* Variant 3: pale green chapter */
+.news.news-g{background:var(--sage);box-shadow:0 0 0 100vmax var(--sage)}
+.news-g .sec-h{border-color:rgba(46,91,71,.3)}
+.news-g .tag{font-size:15px;color:var(--green)}
+/* Drop cap for the help section */
+.cap-h{aspect-ratio:588/700;-webkit-mask-image:url(bukvitsa-H.png);mask-image:url(bukvitsa-H.png)}
 </style>
 </head><body id="top">
 
@@ -341,7 +352,18 @@ h1 span{display:inline-block}
   </div>
 </section>
 
-<div class="frieze soft" style="--h:30px;animation-delay:1.4s"></div>
+<div class="uzb" data-img="uzor-izumrud.png" style="--h:30px;--rules:var(--red)" aria-hidden="true"></div>
+
+<section class="news news-g" id="news-v3" aria-label="Новости, вариант 3">
+  <div class="sec-h"><h2>Новости</h2><span class="tag">Вариант 3 для сравнения</span></div>
+  <div class="news-l">
+    <article><img src="news-hero-02-oktyabr-2026.jpg" alt="Пантелеимоновский храм снаружи" loading="lazy" width="900" height="675"><time>1 мая</time><h3>Приход едет в Бутово</h3><p>23 мая храм организует поездку в Бутово: экскурсия по храмовому комплексу и полигону, храм Воскресения Христова и Новомучеников и исповедников Российских, рассказ о Пушкинских новомучениках.</p><a href="https://t.me/zavetihram/476" target="_blank" rel="noopener">Подробнее</a></article>
+    <article><img src="news-int-02-tsarskie-vrata.jpg" alt="Царские врата храма" loading="lazy" width="675" height="900"><time>22 марта</time><h3>Литургия Преждеосвященных Даров</h3><p>В будни Великого поста в храме совершается Литургия Преждеосвященных Даров. В канале зарисовки со службы в среду Крестопоклонной седмицы.</p><a href="https://t.me/zavetihram/474" target="_blank" rel="noopener">Подробнее</a></article>
+    <article><img src="news-int-05-amvon.jpg" alt="Амвон и иконостас храма" loading="lazy" width="900" height="675"><time>20 марта</time><h3>Соборование</h3><p>В четверг в храме совершили Таинство Соборования, вместе с нами молился отец Кирилл, настоятель Михаило-Архангельского храма. Последнее Соборование в этом посту в субботу 28 марта после литургии.</p><a href="https://t.me/zavetihram/467" target="_blank" rel="noopener">Подробнее</a></article>
+  </div>
+</section>
+
+<div class="uzb" data-img="uzor-izumrud.png" style="--h:30px;--rules:var(--red)" aria-hidden="true"></div>
 
 <section class="about" id="about">
   <div>
@@ -357,12 +379,12 @@ h1 span{display:inline-block}
   </ul>
 </section>
 
-<div class="frieze soft" style="--h:30px;animation-delay:1.4s"></div>
+<div class="uzb" data-img="uzor-izumrud.png" style="--h:30px;--rules:var(--red)" aria-hidden="true"></div>
 
 <section class="help" id="help">
   <div>
     <h2>Помощь храму</h2>
-    <p class="lead">Храм построили прихожане и благотворители, сейчас продолжаются отделка и благоустройство.</p>
+    <p class="lead"><span class="cap cap-h" aria-hidden="true"></span><span class="sr">Х</span>рам построили прихожане и благотворители, сейчас продолжаются отделка и благоустройство.</p>
     <p>Пожертвовать на строительство, на воскресную школу или на социальные проекты прихода можно в храме, в кружку для пожертвований, или переводом по реквизитам. Приход всегда рад и помощи делом: с уборкой, садом-цветником, трапезой, организацией праздников.</p>
     <p>У прихода есть благотворительный проект «Аз есмь с вами»: помощь людям в трудной жизненной ситуации и сборы для бойцов СВО. <a href="https://t.me/+d78WahK1r-w1YTUy" target="_blank" rel="noopener">Подробнее в Telegram-канале проекта</a>.</p>
   </div>
@@ -383,7 +405,7 @@ h1 span{display:inline-block}
 </main>
 
 <!--foot--><footer class="ftr">
-  <div class="frieze soft" style="--h:24px"></div>
+  <div class="uzb" data-img="uzor-izumrud.png" style="--h:24px;--rules:var(--red)" aria-hidden="true"></div>
   <div class="ftr-in">
     <div class="ftr-brand">
       <a class="ftr-name" href="index.html"><b>Пантелеимоновский храм</b><small>в Заветах Ильича</small></a>
@@ -548,6 +570,7 @@ matchMedia('(min-width:1101px)').addEventListener('change', e => { if (e.matches
 
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .15 });
 io.observe(document.getElementById('about'));
+io.observe(document.getElementById('help'));
 </script>
 <script>
 (function(){

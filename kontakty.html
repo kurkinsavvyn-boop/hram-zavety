@@ -6,7 +6,7 @@
 <script>document.documentElement.classList.add('js')</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ruslan+Display&family=Forum&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=10">
+<link rel="stylesheet" href="site.css?v=11">
 <style>
 .ct-info{columns:2;column-gap:clamp(28px,5vw,64px)}
 .ct-info .blk{break-inside:avoid}
@@ -116,7 +116,7 @@ document.querySelectorAll('.cp').forEach(b => b.addEventListener('click', async 
 
 </main>
 <footer class="ftr">
-  <div class="frieze soft" style="--h:24px"></div>
+  <div class="uzb" data-img="uzor-izumrud.png" style="--h:24px;--rules:var(--red)" aria-hidden="true"></div>
   <div class="ftr-in">
     <div class="ftr-brand">
       <a class="ftr-name" href="index.html"><b>Пантелеимоновский храм</b><small>в Заветах Ильича</small></a>
@@ -156,5 +156,25 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.b
 matchMedia('(min-width:1101px)').addEventListener('change', e => { if (e.matches) setMenu(false); });
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .15 });
 document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+<script>
+(function(){
+  var R=125/192,bands=[].slice.call(document.querySelectorAll('.uzb'));
+  function fill(b){
+    b.innerHTML='<i class="ln"></i><i class="gl"><b></b><b></b></i>';
+    var w=b.clientWidth,h=b.clientHeight,tw=h*R,x0=w/2-tw/2,K=Math.ceil(x0/tw)+1,f=document.createDocumentFragment();
+    for(var k=-K;k<=K;k++){var t=document.createElement('i');t.className='t';
+      t.style.cssText='left:'+(x0+k*tw)+'px;width:'+(tw+.4)+'px;--d:'+Math.abs(k)+';background-image:url('+b.dataset.img+')';f.appendChild(t)}
+    b.insertBefore(f,b.querySelector('.gl'));
+    b.style.setProperty('--bw',w+'px');b.style.setProperty('--ox',(((x0%tw)+tw)%tw)+'px');
+    b.style.setProperty('--gd',(.75+K*.06+.3)+'s');b._w=w;
+  }
+  bands.forEach(fill);
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.6});
+    bands.forEach(function(b){io.observe(b)});
+  }else bands.forEach(function(b){b.classList.add('on')});
+  addEventListener('resize',function(){bands.forEach(function(b){if(Math.abs(b.clientWidth-b._w)>40){fill(b)}})});
+})();
 </script>
 </body></html>

@@ -2,7 +2,7 @@
 :root{
   --paper:#f5e6cd;--card:#fbf1df;--ink:#2a1d17;--mute:#6a584b;
   --red:#b3261e;--deep:#7d1712;--line:rgba(125,23,18,.28);
-  --paper-2:#fbf1df;--paper-3:#efdbbb;
+  --paper-2:#fbf1df;--green:#2e5b47;--sage:#e9ecdc;--paper-3:#efdbbb;
   --page:#f8ecd8;   /* the page: a lighter beige so text reads easily; the header and the church walls keep the paper tone */
   --title:'Ruslan Display';--hdr:64px;--gut:clamp(16px,4vw,48px);
   --wrap:1240px;--sec:clamp(48px,5vw,64px);
@@ -134,3 +134,22 @@ p{margin:0 0 14px}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important;transition-delay:0s!important}
 }
+
+/* Coloured ornament band: rules open from centre, rhombuses appear outward, soft glint */
+.uzb{position:relative;height:var(--h,30px);overflow:hidden}
+.uzb .ln{position:absolute;inset:0;background:var(--rules);
+  -webkit-mask:url(uzor-linii.png) left top/auto 100% repeat-x;mask:url(uzor-linii.png) left top/auto 100% repeat-x;clip-path:inset(0 50%)}
+.uzb .t{position:absolute;top:0;height:100%;background:center/100% 100% no-repeat;opacity:0;transform:scale(.35)}
+.uzb .gl{position:absolute;inset:0;pointer-events:none;
+  -webkit-mask:url(uzor-romb.png) var(--ox,0) 0/auto 100% repeat-x;mask:url(uzor-romb.png) var(--ox,0) 0/auto 100% repeat-x}
+.uzb .gl b{position:absolute;top:0;bottom:0;left:calc(50% - 16px);width:32px;opacity:0;
+  background:linear-gradient(90deg,rgba(255,236,190,0),rgba(255,236,190,.42) 50%,rgba(255,236,190,0))}
+.uzb.on .ln{animation:uzOpen .9s cubic-bezier(.3,0,.2,1) forwards}
+.uzb.on .t{animation:uzPop .55s cubic-bezier(.2,.9,.3,1.2) forwards;animation-delay:calc(.75s + var(--d) * 60ms)}
+.uzb.on .gl b{animation:uzGlL 1.8s cubic-bezier(.4,0,.3,1) forwards;animation-delay:var(--gd)}
+.uzb.on .gl b+b{animation-name:uzGlR}
+@keyframes uzOpen{to{clip-path:inset(0 0)}}
+@keyframes uzPop{to{opacity:1;transform:none}}
+@keyframes uzGlL{0%{opacity:0;transform:none}20%,80%{opacity:1}100%{opacity:0;transform:translateX(calc(var(--bw) * -.5 - 32px))}}
+@keyframes uzGlR{0%{opacity:0;transform:none}20%,80%{opacity:1}100%{opacity:0;transform:translateX(calc(var(--bw) * .5 + 32px))}}
+@media (prefers-reduced-motion:reduce){.uzb .ln,.uzb .t{animation:none!important;clip-path:none;opacity:1;transform:none}.uzb .gl{display:none}}
