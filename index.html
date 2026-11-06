@@ -292,7 +292,21 @@ h1 span{display:inline-block}
 .news article a{color:var(--green)}
 .news article{border-top-color:rgba(46,91,71,.35)}
 /* Drop cap for the help section */
-.cap-h{aspect-ratio:588/700;-webkit-mask-image:url(bukvitsa-H.png);mask-image:url(bukvitsa-H.png)}
+.help .cap-h{width:3em;margin:.2em .3em 0 0;aspect-ratio:588/700;-webkit-mask-image:url(bukvitsa-H.png);mask-image:url(bukvitsa-H.png)}
+
+
+/* Calligraphy quote: a small inset on the right, text flows to its left */
+.htxt{clear:left;display:flow-root}
+.qsp{float:right;width:0;height:0}
+.help .quote{float:right;clear:right;width:190px;margin:8px 0 0 22px}
+.help .quote img{display:block;width:100%;height:auto}
+.help .quote{position:relative}
+.help .quote canvas{position:absolute;inset:0;width:100%;height:100%}
+.js .help .quote .fin{opacity:0}
+.help .quote.done .fin{opacity:1;transition:opacity .5s ease}
+.help .quote.done canvas{opacity:0;transition:opacity .4s ease .5s}
+@media (max-width:600px){.help .quote{width:44%;margin:6px 0 0 14px}}
+@media (prefers-reduced-motion:reduce){.js .help .quote .fin{opacity:1}.help .quote canvas{display:none}}
 </style>
 </head><body id="top">
 
@@ -369,8 +383,9 @@ h1 span{display:inline-block}
   <div>
     <h2>Помощь храму</h2>
     <p class="lead"><span class="cap cap-h" aria-hidden="true"></span><span class="sr">Х</span>рам построили прихожане и благотворители, сейчас продолжаются отделка и благоустройство.</p>
+    <div class="htxt"><i class="qsp" aria-hidden="true"></i><figure class="quote" id="quote"><canvas aria-hidden="true"></canvas><img class="fin" src="zaamvonnaya.webp" alt="Освяти любящия благолепие дому Твоего, Ты тех воспрослави Божественною Твоею силою. Заамвонная молитва." width="1100" height="795" loading="lazy" decoding="async"></figure>
     <p>Пожертвовать на строительство, на воскресную школу или на социальные проекты прихода можно в храме, в кружку для пожертвований, или переводом по реквизитам. Приход всегда рад и помощи делом: с уборкой, садом-цветником, трапезой, организацией праздников.</p>
-    <p>У прихода есть благотворительный проект «Аз есмь с вами»: помощь людям в трудной жизненной ситуации и сборы для бойцов СВО. <a href="https://t.me/+d78WahK1r-w1YTUy" target="_blank" rel="noopener">Подробнее в Telegram-канале проекта</a>.</p>
+    <p>У прихода есть благотворительный проект «Аз есмь с вами»: помощь людям в трудной жизненной ситуации и сборы для бойцов СВО. <a href="https://t.me/+d78WahK1r-w1YTUy" target="_blank" rel="noopener">Подробнее в Telegram-канале проекта</a>.</p></div>
   </div>
   <div class="req" id="rekvizity">
     <h3>Реквизиты <span class="tbc">уточнить</span></h3>
@@ -385,7 +400,6 @@ h1 span{display:inline-block}
     <p class="give"><button type="button" class="btn solid" id="give">Пожертвовать</button></p>
   </div>
 </section>
-
 </main>
 
 <!--foot--><footer class="ftr">
@@ -432,13 +446,35 @@ h1 span{display:inline-block}
 })();
 </script>
 <script>
-// Nearest service: the first day of the schedule that is today or later; past days never show
+// Nearest service, by Moscow time: a service counts as past one hour after it starts.
+// Past services of today are hidden; when the last one of the day is past, the next day shows.
 (() => {
   const tpl = document.getElementById('svc-days'), box = document.getElementById('svc-day'); if (!tpl || !box) return;
-  const now = new Date(), y = 2026, m = 10;
-  const today = now.getFullYear() === y && now.getMonth() === m ? now.getDate() : (now < new Date(y, m, 1) ? 0 : 99);
-  const next = [...tpl.content.children].find(d => +d.dataset.day >= today);
-  if (next) box.replaceWith(next.cloneNode(true)); else box.remove();
+  const Y = 2026, M = 10, GRACE = 60;
+  const q = new URLSearchParams(location.search).get('now');            // ?now=2026-11-06T18:00 for testing
+  const msk = q ? new Date(q + 'Z') : new Date(Date.now() + 3 * 3600e3);
+  const ym = msk.getUTCFullYear() * 12 + msk.getUTCMonth(), ref = Y * 12 + M;
+  const today = ym === ref ? msk.getUTCDate() : (ym < ref ? 0 : 99);
+  const nowMin = msk.getUTCHours() * 60 + msk.getUTCMinutes();
+  const mins = li => { const [hh, mm] = li.querySelector('time').textContent.trim().split(':'); return +hh * 60 + +mm; };
+  let pick = null;
+  for (const d of tpl.content.children) {
+    const day = +d.dataset.day;
+    if (day < today) continue;
+    const c = d.cloneNode(true);
+    if (day === today) {
+      c.querySelectorAll('li').forEach(li => { if (mins(li) + GRACE <= nowMin) li.remove(); });
+      c.querySelectorAll('ul').forEach(ul => {
+        if (ul.children.length) return;
+        const prev = ul.previousElementSibling;
+        if (prev && prev.classList.contains('vA-f')) prev.remove();
+        ul.remove();
+      });
+      if (!c.querySelector('li')) continue;
+    }
+    pick = c; break;
+  }
+  if (pick) { pick.id = 'svc-day'; box.replaceWith(pick); } else box.remove();
 })();
 </script>
 <script>
@@ -574,6 +610,89 @@ io.observe(document.getElementById('help'));
     bands.forEach(function(b){io.observe(b)});
   }else bands.forEach(function(b){b.classList.add('on')});
   addEventListener('resize',function(){bands.forEach(function(b){if(Math.abs(b.clientWidth-b._w)>40){fill(b)}})});
+})();
+</script>
+<script>
+// Calligraphy quote "written" by a pen: the pale vyaz column rises first, then each line is inked left to right
+(function(){
+  var fig=document.getElementById('quote'); if(!fig) return;
+  var cv=fig.querySelector('canvas'), done=function(){fig.classList.add('done')};
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches||!cv.getContext){done();return}
+  var IW=1100, IH=795, SPEED=1150, GAP=.12;
+  var LINES=[[95,262,150,975],[250,355,105,995],[348,455,90,930],[448,565,40,1055],[575,670,15,1095]];
+  function load(src){return new Promise(function(ok,no){var i=new Image();i.onload=function(){ok(i)};i.onerror=no;i.src=src})}
+  var ready=Promise.all([load('zaamvonnaya-fon.webp'),load('zaamvonnaya-ink.webp')]);
+  function mk(w,h){var c=document.createElement('canvas');c.width=w;c.height=h;return c}
+  function run(imgs){
+    var dpr=Math.min(2,devicePixelRatio||1),W=Math.round(fig.clientWidth*dpr),H=Math.round(W*IH/IW),k=W/IW;
+    cv.width=W;cv.height=H;var ctx=cv.getContext('2d');
+    var mF=mk(W,H),mI=mk(W,H),L=mk(W,H),fx=mF.getContext('2d'),ix=mI.getContext('2d'),lx=L.getContext('2d');
+    var t0=null,FON=.9,plan=[],t=FON*.6;
+    LINES.forEach(function(l){var d=(l[3]-l[2])/SPEED;plan.push({l:l,s:t,d:d,x:l[2]});t+=d+GAP});
+    var END=t;
+    function layer(img,mask){lx.globalCompositeOperation='source-over';lx.clearRect(0,0,W,H);lx.drawImage(img,0,0,W,H);lx.globalCompositeOperation='destination-in';lx.drawImage(mask,0,0);ctx.drawImage(L,0,0)}
+    function dab(x,y,r){var g=ix.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,'rgba(0,0,0,1)');g.addColorStop(.62,'rgba(0,0,0,.85)');g.addColorStop(1,'rgba(0,0,0,0)');ix.fillStyle=g;ix.fillRect(x-r,y-r,2*r,2*r)}
+    function frame(ts){
+      if(t0===null)t0=ts;var s=(ts-t0)/1000;
+      var p=Math.min(1,s/FON),y=p*(H+80*k)-0;fx.clearRect(0,0,W,H);
+      var g=fx.createLinearGradient(0,y-80*k,0,y);g.addColorStop(0,'rgba(0,0,0,1)');g.addColorStop(1,'rgba(0,0,0,0)');
+      fx.fillStyle='#000';fx.fillRect(0,0,W,Math.max(0,y-80*k));fx.fillStyle=g;fx.fillRect(0,y-80*k,W,80*k);
+      plan.forEach(function(q){
+        if(s<q.s)return;var l=q.l,to=l[2]+(l[3]-l[2])*Math.min(1,(s-q.s)/q.d);
+        var r=(l[1]-l[0])*.56*k,cy=(l[0]+l[1])/2*k;
+        for(var x=q.x;x<=to;x+=r/(3*k))dab(x*k,cy+Math.sin(x*.05)*3*k,r);
+        q.x=Math.max(q.x,to);
+      });
+      ctx.clearRect(0,0,W,H);layer(imgs[0],mF);layer(imgs[1],mI);
+      if(s<END+.1)requestAnimationFrame(frame);else done();
+    }
+    requestAnimationFrame(frame);
+  }
+  var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();ready.then(run).catch(done)}},{threshold:.5});
+  io.observe(fig);
+})();
+</script>
+<script>
+// Keep the quote at the bottom of the help text: a zero-width spacer above it takes up the rest of the height
+(function(){
+  var box=document.querySelector('.htxt'), sp=box&&box.querySelector('.qsp'), fig=document.getElementById('quote'); if(!sp) return;
+  function place(top,last){
+    // spacer so the quote starts at the last paragraph, then nudge it until its bottom meets the end of the text
+    var best=null,bd=1e9; fig.style.display='none'; var lt=last.getBoundingClientRect().top; fig.style.display='';
+    for(var h=Math.max(0,Math.floor(lt-top-8)),k=0;k<40;h+=2,k++){
+      sp.style.height=h+'px';
+      var end=last.getBoundingClientRect().bottom, q=fig.getBoundingClientRect();
+      if(q.top<last.getBoundingClientRect().top-2) continue;
+      var d=Math.abs(end-q.bottom); if(d<bd){bd=d;best=h}
+      if(q.bottom>end) break;
+    }
+    return [best,bd];
+  }
+  function fit(){
+    fig.style.width='';fig.style.marginLeft='';fig.style.marginRight=''; sp.style.height='0px';
+    var last=box.lastElementChild, top=box.getBoundingClientRect().top, r, best=null, bd=1e9;
+    if(innerWidth>860){
+      // laptop: the quote keeps its size, the last paragraph gets narrower until both end on one line
+      for(var g=22;g<=box.offsetWidth*.5;g+=6){
+        fig.style.marginLeft=Math.round(g*.55)+'px'; fig.style.marginRight=Math.round(g*.45)+'px'; sp.style.height='0px';
+        r=place(top,last); if(r[0]!==null && r[1]<bd){bd=r[1];best=[g,r[0]]}
+        if(bd<4) break;
+      }
+      if(best){fig.style.marginLeft=Math.round(best[0]*.55)+'px';fig.style.marginRight=Math.round(best[0]*.45)+'px';sp.style.height=best[1]+'px'}
+    }else{
+      // phone: the quote gets smaller instead
+      var wmax=fig.offsetWidth;
+      for(var w=wmax;w>=wmax*.45;w-=4){
+        fig.style.width=w+'px'; sp.style.height='0px';
+        r=place(top,last); if(r[0]!==null && r[1]<bd){bd=r[1];best=[w,r[0]]}
+        if(bd<3) break;
+      }
+      if(best){fig.style.width=best[0]+'px';sp.style.height=best[1]+'px'}
+    }
+  }
+  fit(); addEventListener('load',fit); var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(fit,120)});
+  if(document.fonts) document.fonts.ready.then(fit);
+  var img=fig.querySelector('img'); if(img && !img.complete) img.addEventListener('load',fit);
 })();
 </script>
 </body></html>
