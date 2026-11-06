@@ -12,11 +12,12 @@
   --paper:#f5e6cd;--card:#fbf1df;--ink:#2a1d17;--mute:#6a584b;
   --red:#b3261e;--deep:#7d1712;--line:rgba(125,23,18,.28);
   --paper-2:#fbf1df;--paper-3:#efdbbb;
+  --page:#fffdf9;   /* the page itself: warm white, so text reads easily; header and drawing keep the paper tone */
   --title:'Ruslan Display';--hdr:64px;--gut:clamp(16px,4vw,48px);
   --wrap:1240px;--sec:clamp(48px,5vw,64px);
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--paper);color:var(--ink)}
+html,body{margin:0;background:var(--page);color:var(--ink)}
 body{font:17px/1.55 'Forum',Georgia,serif;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -73,13 +74,13 @@ h1{font:400 clamp(30px,4.6vw,66px)/1.05 var(--title),serif;color:var(--red);marg
 h1 span{display:inline-block}
 .sub{font:400 clamp(18px,2.6vw,36px)/1.1 var(--title),serif;color:var(--ink);margin:6px 0 0;letter-spacing:.015em}
 .hero-t{position:relative;z-index:2}
-.hero-t>*{text-shadow:0 0 14px var(--paper),0 0 4px var(--paper)}
+.hero-t>*{text-shadow:0 0 14px var(--page),0 0 4px var(--page)}
 .plate{margin:0;min-height:0;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
 .drawing{display:block;width:100%;height:100%;
   -webkit-mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent),linear-gradient(180deg,transparent,#000 7%,#000 92%,transparent);-webkit-mask-composite:source-in;
   mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent),linear-gradient(180deg,transparent,#000 7%,#000 92%,transparent);mask-composite:intersect}
 /* Drawn by hand on two canvases: pen strokes uncover the ink, a soft brush lays the red, then the sheet settles in */
-.drawing{position:relative}
+.drawing{position:relative;background:var(--paper)}   /* the church sits on a sheet of paper, its edges fade into the white page */
 .drawing>*{position:absolute;inset:0;width:100%;height:100%}
 .drawing .fin{object-fit:contain}
 .js .drawing .fin{opacity:0;transition:opacity 1.1s ease}

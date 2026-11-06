@@ -3,11 +3,12 @@
   --paper:#f5e6cd;--card:#fbf1df;--ink:#2a1d17;--mute:#6a584b;
   --red:#b3261e;--deep:#7d1712;--line:rgba(125,23,18,.28);
   --paper-2:#fbf1df;--paper-3:#efdbbb;
+  --page:#fffdf9;   /* the page itself: warm white, so text reads easily; header and drawing keep the paper tone */
   --title:'Ruslan Display';--hdr:64px;--gut:clamp(16px,4vw,48px);
   --wrap:1240px;--sec:clamp(48px,5vw,64px);
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--paper);color:var(--ink)}
+html,body{margin:0;background:var(--page);color:var(--ink)}
 body{font:18px/1.6 'Forum',Georgia,serif;overflow-x:hidden}
 a{color:inherit}
 img{max-width:100%;display:block}
