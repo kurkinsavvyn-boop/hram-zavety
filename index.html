@@ -12,7 +12,7 @@
   --paper:#f5e6cd;--card:#fbf1df;--ink:#2a1d17;--mute:#6a584b;
   --red:#b3261e;--deep:#7d1712;--line:rgba(125,23,18,.28);
   --paper-2:#fbf1df;--paper-3:#efdbbb;
-  --page:#fffdf9;   /* the page itself: warm white, so text reads easily; header and drawing keep the paper tone */
+  --page:#faf2e4;   /* the page: a lighter beige so text reads easily; the header and the church walls keep the paper tone */
   --title:'Ruslan Display';--hdr:64px;--gut:clamp(16px,4vw,48px);
   --wrap:1240px;--sec:clamp(48px,5vw,64px);
 }
@@ -80,7 +80,7 @@ h1 span{display:inline-block}
   -webkit-mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent),linear-gradient(180deg,transparent,#000 7%,#000 92%,transparent);-webkit-mask-composite:source-in;
   mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent),linear-gradient(180deg,transparent,#000 7%,#000 92%,transparent);mask-composite:intersect}
 /* Drawn by hand on two canvases: pen strokes uncover the ink, a soft brush lays the red, then the sheet settles in */
-.drawing{position:relative;background:var(--paper)}   /* the church sits on a sheet of paper, its edges fade into the white page */
+.drawing{position:relative}
 .drawing>*{position:absolute;inset:0;width:100%;height:100%}
 .drawing .fin{object-fit:contain}
 .js .drawing .fin{opacity:0;transition:opacity 1.1s ease}
@@ -294,7 +294,7 @@ h1 span{display:inline-block}
   <figure class="plate">
     <div class="drawing" role="img" aria-label="Пантелеимоновский храм: колокольня, купол, трапезная и кирпичная ограда, рисунок пером с красной подцветкой">
       <canvas class="cv" aria-hidden="true"></canvas><canvas class="cv" aria-hidden="true"></canvas>
-      <img class="fin" src="hram-pero.webp" alt="" width="1536" height="1024" decoding="async" fetchpriority="high">
+      <img class="fin" src="hram-pero-list.webp" alt="" width="1536" height="1024" decoding="async" fetchpriority="high">
     </div>
   </figure>
 </section>
@@ -480,7 +480,7 @@ matchMedia('(min-width:1101px)').addEventListener('change', e => { if (e.matches
     g.fillStyle = rg; g.fillRect(0, 0, 64, 64); return c;
   });
   const ease = u => u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
-  Promise.all([load('hram-pero-ink.webp'), load('hram-pero-red.webp'), fin.decode ? fin.decode().catch(() => {}) : 0]).then(([inkImg, redImg]) => {
+  Promise.all([load('hram-pero-ink-steny.webp'), load('hram-pero-red.webp'), fin.decode ? fin.decode().catch(() => {}) : 0]).then(([inkImg, redImg]) => {
     const cvs = [cvInk, cvRed], imgs = [inkImg, redImg], masks = [document.createElement('canvas'), document.createElement('canvas')];
     let tf, ctx, mctx;
     const size = () => {
