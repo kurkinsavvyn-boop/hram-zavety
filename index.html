@@ -366,8 +366,8 @@ h1 span{display:inline-block}
 <section class="about" id="about">
   <div>
     <h2>О храме</h2>
-    <p class="lead"><span class="cap" aria-hidden="true"></span><span class="sr">П</span>риход Пантелеимоновского храма в Заветах Ильича молодой, и община у него живая. Начинали в 2002 году с молитвы в гараже и в комнате Дома культуры, а сегодня здесь каменный храм с колокольней у самой железнодорожной платформы.</p>
-    <p>У нас есть воскресная школа с театральным кружком и арт-студией, киноклуб, паломнические поездки и встречи после литургии. Прихожане называют свою общину «Божья клумба». Приходите, будем рады!</p>
+    <p class="lead"><span class="cap" aria-hidden="true"></span><span class="sr">П</span>риход Пантелеимоновского храма в Заветах Ильича молод, но община его живая. Первоначально богослужения совершались в комнате Дома культуры, ныне же у самой железнодорожной платформы стоит каменный храм с колокольней.</p>
+    <p>При храме действуют воскресная школа с театральным кружком и арт-студией и киноклуб, приход совершает паломнические поездки, после Божественной литургии проходят встречи. Двери храма открыты для всех: приходите, будем рады!</p>
   </div>
   <ul class="facts">
     <li style="--i:0"><b>2002</b>первая Литургия, 9 августа</li>
@@ -383,7 +383,7 @@ h1 span{display:inline-block}
   <div>
     <h2>Помощь храму</h2>
     <p class="lead"><span class="cap cap-h" aria-hidden="true"></span><span class="sr">Х</span>рам построили прихожане и благотворители, сейчас продолжаются отделка и благоустройство.</p>
-    <div class="htxt"><i class="qsp" aria-hidden="true"></i><figure class="quote" id="quote"><canvas aria-hidden="true"></canvas><img class="fin" src="zaamvonnaya.webp" alt="Освяти любящия благолепие дому Твоего, Ты тех воспрослави Божественною Твоею силою. Заамвонная молитва." width="1100" height="795" loading="lazy" decoding="async"></figure>
+    <div class="htxt"><i class="qsp" aria-hidden="true"></i><figure class="quote" id="quote"><canvas aria-hidden="true"></canvas><img class="fin" src="zaamvonnaya-ink.webp" alt="Освяти любящия благолепие дому Твоего, Ты тех воспрослави Божественною Твоею силою. Заамвонная молитва." width="1100" height="795" loading="lazy" decoding="async"></figure>
     <p>Пожертвовать на строительство, на воскресную школу или на социальные проекты прихода можно в храме, в кружку для пожертвований, или переводом по реквизитам. Приход всегда рад и помощи делом: с уборкой, садом-цветником, трапезой, организацией праздников.</p>
     <p>У прихода есть благотворительный проект «Аз есмь с вами»: помощь людям в трудной жизненной ситуации и сборы для бойцов СВО. <a href="https://t.me/+d78WahK1r-w1YTUy" target="_blank" rel="noopener">Подробнее в Telegram-канале проекта</a>.</p></div>
   </div>
@@ -613,7 +613,7 @@ io.observe(document.getElementById('help'));
 })();
 </script>
 <script>
-// Calligraphy quote "written" by a pen: the pale vyaz column rises first, then each line is inked left to right
+// Calligraphy quote "written" by a pen: each line is inked left to right
 (function(){
   var fig=document.getElementById('quote'); if(!fig) return;
   var cv=fig.querySelector('canvas'), done=function(){fig.classList.add('done')};
@@ -621,13 +621,13 @@ io.observe(document.getElementById('help'));
   var IW=1100, IH=795, SPEED=1150, GAP=.12;
   var LINES=[[95,262,150,975],[250,355,105,995],[348,455,90,930],[448,565,40,1055],[575,670,15,1095]];
   function load(src){return new Promise(function(ok,no){var i=new Image();i.onload=function(){ok(i)};i.onerror=no;i.src=src})}
-  var ready=Promise.all([load('zaamvonnaya-fon.webp'),load('zaamvonnaya-ink.webp')]);
+  var ready=Promise.all([load('zaamvonnaya-ink.webp')]);
   function mk(w,h){var c=document.createElement('canvas');c.width=w;c.height=h;return c}
   function run(imgs){
     var dpr=Math.min(2,devicePixelRatio||1),W=Math.round(fig.clientWidth*dpr),H=Math.round(W*IH/IW),k=W/IW;
     cv.width=W;cv.height=H;var ctx=cv.getContext('2d');
     var mF=mk(W,H),mI=mk(W,H),L=mk(W,H),fx=mF.getContext('2d'),ix=mI.getContext('2d'),lx=L.getContext('2d');
-    var t0=null,FON=.9,plan=[],t=FON*.6;
+    var t0=null,FON=.9,plan=[],t=.15;
     LINES.forEach(function(l){var d=(l[3]-l[2])/SPEED;plan.push({l:l,s:t,d:d,x:l[2]});t+=d+GAP});
     var END=t;
     function layer(img,mask){lx.globalCompositeOperation='source-over';lx.clearRect(0,0,W,H);lx.drawImage(img,0,0,W,H);lx.globalCompositeOperation='destination-in';lx.drawImage(mask,0,0);ctx.drawImage(L,0,0)}
@@ -643,7 +643,7 @@ io.observe(document.getElementById('help'));
         for(var x=q.x;x<=to;x+=r/(3*k))dab(x*k,cy+Math.sin(x*.05)*3*k,r);
         q.x=Math.max(q.x,to);
       });
-      ctx.clearRect(0,0,W,H);layer(imgs[0],mF);layer(imgs[1],mI);
+      ctx.clearRect(0,0,W,H);layer(imgs[0],mI);
       if(s<END+.1)requestAnimationFrame(frame);else done();
     }
     requestAnimationFrame(frame);
